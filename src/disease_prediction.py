@@ -1,11 +1,27 @@
-import pickle
+import joblib
+import pandas as pd
 import numpy as np
+from sklearn.preprocessing import LabelEncoder
 
-def load_model():
-    with open('models/voting_classifier.pkl', 'rb') as f:
-        return pickle.load(f)
-
-def predict_disease(model, symptoms):
-    # Convert symptoms to model input format (dummy implementation)
-    input_vector = np.array([1 if symptom in symptoms else 0 for symptom in all_possible_symptoms])
-    return model.predict([input_vector])[0]
+class DiseasePredictor:
+    def __init__(self):
+        # Load and preprocess data
+        self.data = pd.read_csv('data/training.csv').dropna(axis=1)
+        self.features = self.data.columns[:-1]
+        
+        # Load model and initialize encoder
+        self.model = joblib.load('models/voting_classifier.pkl')
+        self.encoder = LabelEncoder()
+        self.encoder.fit(self.data['prognosis'])
+    
+    def create_input_vector(self, selected_symptoms):
+        input_vector = np.zeros(len(self.features))
+        for symptom in selected_symptoms:
+            if symptom in self.features:
+                index = self.features.get_loc(symptom)
+                input_vector[index] = 1
+        return input_vector.reshape(1, -1)
+    
+    def predict_disease(self, input_vector):
+        prediction = self.model.predict(input_vector)
+        return self.encoder.inverse_transform(prediction)[0]

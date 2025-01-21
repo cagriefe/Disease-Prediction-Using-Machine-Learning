@@ -46,7 +46,7 @@ class DiseasePredictorApp:
         input_vector = input_vector.reshape(1, -1)
         prediction = self.model.predict(input_vector)
         return self.encoder.inverse_transform(prediction)[0]
-
+        
     def run(self):
         print("Disease Prediction System")
         print("========================")

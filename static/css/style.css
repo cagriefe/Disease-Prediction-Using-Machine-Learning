@@ -1,0 +1,81 @@
+/* Base styling for the body */
+body {
+    background-color: #f8f9fa; /* Light background color */
+    font-family: 'Arial', sans-serif; /* Font style for the entire body */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+/* Container styling */
+.container {
+    background-color: #ffffff; /* White background for the main container */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    padding: 20px; /* Padding around content */
+    max-width: 600px; /* Maximum width of the container */
+    margin: auto; /* Center the container */
+}
+
+/* Heading styling */
+h1 {
+    color: #007bff; /* Bootstrap primary color */
+    font-size: 2.5rem; /* Large font size for the main title */
+    margin-bottom: 20px; /* Space below the heading */
+}
+
+h3 {
+    color: #343a40; /* Darker color for subheadings */
+    font-size: 1.5rem; /* Font size for subheadings */
+    margin-top: 20px; /* Space above subheadings */
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 15px; /* Space below each form group */
+}
+
+/* Checkbox styling */
+.form-check {
+    margin-bottom: 10px; /* Space between checkboxes */
+}
+
+/* Custom checkbox styling */
+.form-check-input {
+    margin-right: 10px; /* Space between checkbox and label */
+}
+
+/* Button styling */
+.btn {
+    background-color: #007bff; /* Bootstrap primary button color */
+    color: white; /* White text on the button */
+    padding: 10px 20px; /* Padding inside the button */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+/* Result alert styling */
+.alert {
+    padding: 15px; /* Padding inside the alert */
+    border-radius: 5px; /* Rounded corners */
+    margin-top: 20px; /* Space above the alert */
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    h1 {
+        font-size: 2rem; /* Smaller title font size on small screens */
+    }
+
+    .container {
+        padding: 15px; /* Reduced padding on smaller screens */
+    }
+
+    .btn {
+        width: 100%; /* Full-width button on small screens */
+    }
+}

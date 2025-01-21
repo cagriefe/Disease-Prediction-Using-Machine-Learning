@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from src.disease_predictor import DiseasePredictor
+from src.disease_prediction import DiseasePredictor
 
 app = Flask(__name__)
 

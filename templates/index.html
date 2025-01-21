@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Disease Prediction System</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Disease Prediction System</h1>
+        <form id="symptom-form" class="mb-4">
+            <h3>Select Symptoms:</h3>
+            <div class="form-group">
+                {% for symptom in symptoms %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="symptoms" value="{{ symptom }}" id="{{ symptom }}">
+                        <label class="form-check-label" for="{{ symptom }}">
+                            {{ symptom.replace('_', ' ').title() }}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">Predict Disease</button>
+        </form>
+
+        <h3>Result:</h3>
+        <div id="result" class="alert alert-info" role="alert"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        const form = document.getElementById('symptom-form');
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            document.getElementById('result').innerHTML = `
+                <p><strong>Selected Symptoms:</strong> ${data.selected_symptoms.join(', ')}</p>
+                <p><strong>Predicted Disease:</strong> ${data.predicted_disease}</p>
+            `;
+        };
+    </script>
+</body>
+</html>

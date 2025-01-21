@@ -9,9 +9,12 @@ A machine learning-based disease prediction system that uses symptoms to predict
 - Model evaluation using k-fold cross-validation
 - Ensemble learning with voting classifier
 - Interactive terminal application interface for predictions
+- Web application interface for predictions
 - Visualization of data distributions and model performance
+- Treatment plan generation using LLM models
 
 ![display](assets/disease-prediction-app.gif)
+![display](assets/disease-prediction-web-app.gif)
 
 # Dataset
 The dataset used in this project is available in the data directory and includes:

@@ -22,7 +22,7 @@ class MedicalSystem:
             predicted_disease=predicted_disease,
             generator=self.generator,
             tokenizer=self.tokenizer,
-            max_length=2048  # Adjusted max_length for Medichat model
+            max_length=1024  # Adjusted max_length for Medichat model
         )
         
         return {

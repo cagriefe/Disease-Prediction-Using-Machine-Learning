@@ -5,7 +5,7 @@ from treatment_plan import load_generator, generate_treatment_plan
 class MedicalSystem:
     def __init__(self):
         self.disease_predictor = DiseasePredictor()
-        self.generator, self.tokenizer = load_generator()
+        self.generator, self.tokenizer = load_generator('/Users/cagriefe/Git_pull/Disease-Prediction-Using-Machine-Learning/models')
     
     def process_case(self, symptoms_list):
         # Predict disease
@@ -20,7 +20,8 @@ class MedicalSystem:
             symptoms=formatted_symptoms,
             predicted_disease=predicted_disease,
             generator=self.generator,
-            tokenizer=self.tokenizer
+            tokenizer=self.tokenizer,
+            max_length=2000  # Ensure max_length does not exceed model's limit
         )
         
         return {
@@ -34,8 +35,13 @@ if __name__ == "__main__":
     system = MedicalSystem()
     
     # Example usage
-    test_symptoms = ["itching", "skin_rash", "nodal_skin_eruptions"]
-    
+    # test_symptoms = ["fatigue", "weigth_loss", "restlessness","lethargy", "irregualar_sugar_level", "obesity", "excessive_hunger"]
+    # test_symptoms = ["itching", "skin_rash", "nodal_skin_eruptions"]
+    # test_symptoms = ["continuous_sneezing", "shivering", "chills"]
+    test_symptoms = ["stomach_pain", "acidity", "ulcers_on_tongue", "vomiting"]
+    # test_symptoms = ["fatigue", "weight_gain", "anxiety", "cold_hands_and_feets"]
+    # test_symptoms = ["weight_loss", "restlessness", "lethargy", "patches_in_throat"]
+        
     print("Medical Diagnosis and Treatment System\n")
     print("Input Symptoms:", test_symptoms)
     

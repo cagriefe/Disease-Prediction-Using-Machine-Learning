@@ -177,4 +177,5 @@ __pycache__/
 venv/
 .env
 
-models/
+models/model.safetensors
+models/config.json

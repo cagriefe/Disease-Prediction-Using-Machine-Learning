@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
     <title>Disease Prediction System</title>
 </head>
@@ -42,16 +43,50 @@
                 body: formData
             });
             const data = await response.json();
-            const formattedSymptoms = data.symptoms.map(symptom => symptom.replace('_', ' ').replace(/\b\w/g, char => char.toUpperCase()));
-            const formattedTreatmentPlan = data.treatment_plan.replace(/Provide a concise treatment plan for a patient diagnosed with.*Treatment Plan \(1024 tokens max\):/s, '').replace(/\*\*/g, '');
-            document.getElementById('result').innerHTML = `
-                <p><strong>Selected Symptoms:</strong> ${formattedSymptoms.join(', ')}</p>
-                <p><strong>Predicted Disease:</strong> ${data.predicted_disease}</p>
-                <p><strong>Treatment Plan:</strong></p>
-                <ul>
-                    ${formattedTreatmentPlan.split('\n').map(line => `<li>${line}</li>`).join('')}
-                </ul>
-            `;
+            
+            // Format symptoms
+            const formattedSymptoms = data.symptoms.map(symptom => 
+                symptom.replace(/_/g, ' ')
+                      .replace(/\b\w/g, char => char.toUpperCase())
+            );
+    
+            // Clean treatment plan output
+            const rawPlan = data.treatment_plan;
+            
+            // 1. Remove initial prompt section
+            const cleanedPlan = rawPlan
+                .replace(/Provide a concise treatment plan.*?Treatment Plan \(516 tokens max\):/gs, '')
+                .replace(/Generate a STRUCTURED treatment plan.*?Warning Signs:/gs, '')
+                .replace(/Explanation.*/gs, '')
+                .replace(/By following this.*/gs, '');
+    
+            // 2. Remove duplicate sections using regex
+            const finalPlan = cleanedPlan
+                .replace(/(Medication and Dosage:.*?)(?=\n\s*[A-Z][a-z]+:)/gs, '') // Remove first medication section
+                .replace(/(Lifestyle Modifications:.*?)(?=\n\s*[A-Z][a-z]+:)/gs, '') // Remove first lifestyle section
+                .replace(/\*\*/g, '') // Remove bold markers
+                .replace(/#{1,3}/g, '') // Remove markdown headers
+                .trim();
+    
+            // 3. Format as HTML
+            const planHTML = finalPlan.split('\n').reduce((html, line) => {
+                line = line.trim();
+                if (!line) return html;
+                
+                if (line.endsWith(':')) {
+                    return html + `</ul><strong>${line.replace(':', '')}</strong><ul>`;
+                }
+                if (line.match(/^[-•]|^\d+\./)) {
+                    return html + `<li>${line.replace(/^[-•]\s*|^\d+\.\s*/, '')}</li>`;
+                }
+                return html + `<p>${line}</p>`;
+            }, '<div class="treatment-plan">') + '</ul></div>';
+    
+            document.getElementById('result').innerHTML = 
+                `<p><strong>Selected Symptoms:</strong> ${formattedSymptoms.join(', ')}</p>
+                 <p><strong>Predicted Disease:</strong> ${data.predicted_disease}</p>
+                 <strong>Treatment Plan:</strong>
+                 ${planHTML}`;
         };
     </script>
 </body>

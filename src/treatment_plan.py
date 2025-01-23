@@ -14,7 +14,7 @@ def load_generator():
     model.resize_token_embeddings(len(tokenizer))
     return model, tokenizer
 
-def generate_treatment_plan(symptoms, predicted_disease, generator, tokenizer, max_length=1024):
+def generate_treatment_plan(symptoms, predicted_disease, generator, tokenizer, max_length=516):
     """Generate a concise treatment plan using the Bio-Medical Llama model."""
     formatted_symptoms = ", ".join([symptom.capitalize() for symptom in symptoms])
     
@@ -30,7 +30,7 @@ def generate_treatment_plan(symptoms, predicted_disease, generator, tokenizer, m
     - Preventive strategies
     - Warning signs to seek help
     
-    Treatment Plan (1024 tokens max):
+    Treatment Plan (516 tokens max):
     """
 
     # Tokenize input

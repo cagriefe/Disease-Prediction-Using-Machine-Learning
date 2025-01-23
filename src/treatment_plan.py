@@ -51,7 +51,7 @@ def generate_treatment_plan(symptoms, predicted_disease, generator, tokenizer, m
         treatment_plan = raw_output.split("Treatment Plan:")[-1].strip()
 
         # Debug generated output
-        print(f"Raw model output: {raw_output}")
+        # print(f"Raw model output: {raw_output}")
 
         # Validate response
         if len(treatment_plan.split()) < 20:  # Validate length to ensure minimal response
@@ -67,8 +67,3 @@ def generate_treatment_plan(symptoms, predicted_disease, generator, tokenizer, m
         'symptoms': formatted_symptoms,
         'treatment_plan': treatment_plan
     }
-
-
-MODEL = "ContactDoctor/Bio-Medical-Llama-3-2-1B-CoT-012025"
-tokenizer = AutoTokenizer.from_pretrained(MODEL)
-tokenizer.model_max_length

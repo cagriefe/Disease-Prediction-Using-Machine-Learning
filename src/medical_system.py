@@ -12,11 +12,11 @@ class MedicalSystem:
         # Predict disease
         prediction_result = self.disease_predictor.return_data(symptoms_list)
         predicted_disease = prediction_result['predicted_disease']
-        
-        # Format symptoms for display
-        formatted_symptoms = ", ".join(symptoms_list).lower()
-        
-        # Generate treatment plan
+
+        # Format symptoms for treatment plan generation
+        formatted_symptoms = [symptom.lower() for symptom in symptoms_list]
+
+        # Generate treatment plan ONCE
         treatment_result = generate_treatment_plan(
             symptoms=formatted_symptoms,
             predicted_disease=predicted_disease,
@@ -24,10 +24,10 @@ class MedicalSystem:
             tokenizer=self.tokenizer,
             max_length=1024  # Adjusted max_length for Medichat model
         )
-        
+
         return {
             'symptoms': symptoms_list,
-            'formatted_symptoms': formatted_symptoms,
+            'formatted_symptoms': ", ".join(formatted_symptoms),
             'predicted_disease': predicted_disease,
             'treatment_plan': treatment_result['treatment_plan']
         }
@@ -36,9 +36,9 @@ if __name__ == "__main__":
     system = MedicalSystem()
     
     # Example usage
-    test_symptoms = ["itching", "skin_rash", "nodal_skin_eruptions"]
+    # test_symptoms = ["itching", "skin_rash", "nodal_skin_eruptions"]
     # test_symptoms = ["continuous_sneezing", "shivering", "chills"]
-    # test_symptoms = ["stomach_pain", "acidity", "ulcers_on_tongue", "vomiting"]
+    test_symptoms = ["stomach_pain", "acidity", "ulcers_on_tongue", "vomiting"]
     # test_symptoms = ["fatigue", "weight_gain", "anxiety", "cold_hands_and_feets"]
     # test_symptoms = ["weight_loss", "restlessness", "lethargy", "patches_in_throat"]
     print("Medical Diagnosis and Treatment System\n")
@@ -49,6 +49,5 @@ if __name__ == "__main__":
     print("\nDiagnosis Results:")
     print(f"- Predicted Disease: {result['predicted_disease']}")
     print(f"- Identified Symptoms: {result['formatted_symptoms']}")
-    
     print("\nRecommended Treatment Plan:")
     print(result['treatment_plan'])

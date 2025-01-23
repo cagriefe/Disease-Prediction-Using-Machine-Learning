@@ -33,8 +33,8 @@ A machine learning-based disease prediction system that uses symptoms to predict
 - Scalable model deployment
 - Comprehensive documentation
 
+![display](assets/disease-prediction-web.gif)
 ![display](assets/disease-prediction-app.gif)
-![display](assets/disease-prediction-web-app.gif)
 
 # Dataset
 The dataset used in this project is available in the data directory and includes:

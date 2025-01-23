@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, jsonify
-from src.disease_prediction import DiseasePredictor
+from src.medical_system import MedicalSystem
 
 app = Flask(__name__)
 
-# Initialize the DiseasePredictor
-predictor = DiseasePredictor()
+# Initialize the Predictor
+predictor = MedicalSystem()
 
 @app.route('/')
 def home():
@@ -14,9 +14,8 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     selected_symptoms = request.form.getlist('symptoms')
-    input_vector = predictor.create_input_vector(selected_symptoms)
-    predicted_disease = predictor.predict_disease(input_vector)
-    return jsonify({'predicted_disease': predicted_disease, 'selected_symptoms': selected_symptoms})
+    prediction = predictor.process_case(selected_symptoms)
+    return jsonify(prediction)
 
 if __name__ == '__main__':
     app.run(debug=True)

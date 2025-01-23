@@ -43,8 +43,9 @@
             });
             const data = await response.json();
             document.getElementById('result').innerHTML = `
-                <p><strong>Selected Symptoms:</strong> ${data.selected_symptoms.join(', ')}</p>
+                <p><strong>Selected Symptoms:</strong> ${data.symptoms.join(', ')}</p>
                 <p><strong>Predicted Disease:</strong> ${data.predicted_disease}</p>
+                <p><strong>Treatment Plan:</strong> ${data.treatment_plan}</p>
             `;
         };
     </script>

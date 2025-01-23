@@ -1,12 +1,16 @@
 import joblib
-from disease_prediction import DiseasePredictor
-from treatment_plan import load_generator, generate_treatment_plan
+from .disease_prediction import DiseasePredictor
+from .treatment_plan import load_generator, generate_treatment_plan
+import pandas as pd
 
 class MedicalSystem:
     def __init__(self):
         # Initialize the disease predictor and the Medichat generator
         self.disease_predictor = DiseasePredictor()
         self.generator, self.tokenizer = load_generator()  # Use the Medichat-Llama3-8B model
+        # Load and preprocess data
+        self.data = pd.read_csv('data/disease_prediction/training.csv').dropna(axis=1)
+        self.features = self.data.columns[:-1]
 
     def process_case(self, symptoms_list):
         # Predict disease

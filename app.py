@@ -1,3 +1,5 @@
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module='urllib3')
 from flask import Flask, render_template, request, jsonify
 from src.medical_system import MedicalSystem
 

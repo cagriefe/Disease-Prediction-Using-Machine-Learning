@@ -42,10 +42,15 @@
                 body: formData
             });
             const data = await response.json();
+            const formattedSymptoms = data.symptoms.map(symptom => symptom.replace('_', ' ').replace(/\b\w/g, char => char.toUpperCase()));
+            const formattedTreatmentPlan = data.treatment_plan.replace(/Provide a concise treatment plan for a patient diagnosed with.*Treatment Plan \(1024 tokens max\):/s, '').replace(/\*\*/g, '');
             document.getElementById('result').innerHTML = `
-                <p><strong>Selected Symptoms:</strong> ${data.symptoms.join(', ')}</p>
+                <p><strong>Selected Symptoms:</strong> ${formattedSymptoms.join(', ')}</p>
                 <p><strong>Predicted Disease:</strong> ${data.predicted_disease}</p>
-                <p><strong>Treatment Plan:</strong> ${data.treatment_plan}</p>
+                <p><strong>Treatment Plan:</strong></p>
+                <ul>
+                    ${formattedTreatmentPlan.split('\n').map(line => `<li>${line}</li>`).join('')}
+                </ul>
             `;
         };
     </script>
